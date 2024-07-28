@@ -10,7 +10,7 @@ const Part = ({ part }) =>
 const Content = ({ parts }) => 
   <>
     {parts.map((p) => 
-      <Part part={p} />
+      <Part part={p} key={p.id} />
     )}
   </>
 
