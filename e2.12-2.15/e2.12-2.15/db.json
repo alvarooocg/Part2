@@ -21,29 +21,9 @@
       "id": "4"
     },
     {
-      "id": "[object Undefined]",
-      "name": "new",
-      "number": "new 1"
-    },
-    {
-      "id": "6",
-      "name": "neee",
-      "number": "newww2"
-    },
-    {
-      "id": "7",
-      "name": "neewww",
-      "number": "newwwww2"
-    },
-    {
-      "id": "8",
-      "name": "n1",
-      "number": "n1111"
-    },
-    {
-      "id": "9",
-      "name": "n222",
-      "number": "n222"
+      "id": "5",
+      "name": "New Contact",
+      "number": "New Number"
     }
   ]
 }
