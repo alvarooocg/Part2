@@ -79,7 +79,7 @@ const App = () => {
 
   const handleFilterChange = (event) => setFilter(event.target.value)
 
-  const filteredPersons = persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
+  const filteredPersons = persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase())) 
 
   return (
     <div>
