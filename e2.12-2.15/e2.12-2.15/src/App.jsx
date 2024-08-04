@@ -12,6 +12,7 @@ const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [isRepeated, setIsRepeated] = useState(false)
   const [filter, setFilter] = useState('')
 
   useEffect(() => {
@@ -24,18 +25,38 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-  
-    const personObject = {
-      id: "" + (persons.length + 1),
-      name: newName,
-      number: newNumber
+    
+    if(isRepeated == true){
+      if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+        const personToFind = persons.find(e => e.name === newName)
+        const id = personToFind.id
+        const changedPerson = {...personToFind, number: newNumber}
+
+        personService
+          .update(personToFind.id, changedPerson)
+          .then(returnedPerson => {
+            setPersons(persons.map(p => p.id !== id ? p : returnedPerson))
+          })
+          .catch(error => {
+            alert(`the person '${person.name}' was already deleted from server`)
+            setPersons(persons.filter(p => p.id !== id))
+          })
+      }
     }
 
-    personService
-      .create(personObject)
-      .then(returnedPerson => {
-        setPersons(persons.concat(returnedPerson))
-      })
+    else {
+      const personObject = {
+        id: "" + (persons.length + 1),
+        name: newName,
+        number: newNumber
+      }
+
+      personService
+        .create(personObject)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
+        })
+    }
     
     setNewName('')
     setNewNumber('')
@@ -43,22 +64,22 @@ const App = () => {
 
   const handleNameChange = (event) => {
     if(checkName(event.target.value) == false) {
-      console.log("Not valid name")
-      return
+      setIsRepeated(true)
+      console.log(`${event.target.value} is repeated`)
     } else {
-      setNewName(event.target.value)
+      setIsRepeated(false)
     }
+    setNewName(event.target.value)
   }
 
   const checkName = (newName) => {
     const nameExists = persons.some(p => p.name === newName)
     if (nameExists) {
-      alert(`${newName} is already added to phonebook`)
       return false
     }
     return true
   }
-
+  
   const handleNumberChange = (event) => {
     if(checkNumber(event.target.value) == false)  {
       console.log("Not valid number")
