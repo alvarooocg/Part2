@@ -15,12 +15,16 @@ const App = () => {
   const [isRepeated, setIsRepeated] = useState(false)
   const [filter, setFilter] = useState('')
   const [message, setMessage] = useState(null)
+  const [isError, setIsError] = useState(false)
 
   useEffect(() => {
     personService
       .getAll()
       .then(initialPersons => {
         setPersons(initialPersons)
+      })
+      .catch(error => {
+        console.log('an error has ocurred')
       })
   })
 
@@ -39,7 +43,12 @@ const App = () => {
             setPersons(persons.map(p => p.id !== id ? p : returnedPerson))
           })
           .catch(error => {
-            alert(`the person '${person.name}' was already deleted from server`)
+            console.log('an error has ocurred')
+            setMessage(`Information of '${newName}' has already been removed from server`)
+            setIsError(true)
+            setTimeout(() =>{
+              setMessage(null)
+            }, 5000)
             setPersons(persons.filter(p => p.id !== id))
           })
       }
@@ -57,7 +66,11 @@ const App = () => {
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
         })
-
+        .catch(error => {
+          console.log('an error has ocurred')
+        })
+      
+      setIsError(false)
       setMessage(`Added ${newName}`)
 
       setTimeout(() =>{
@@ -112,7 +125,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={message} />
+      <Notification message={message} isError={isError} />
       <Filter filter={filter} handleFilterChange={handleFilterChange}/>
       <h2>add a new</h2>
       <Add newName={newName} newNumber={newNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} addPerson={addPerson} />
