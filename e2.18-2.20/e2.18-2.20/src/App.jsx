@@ -29,13 +29,15 @@ function App() {
 
   const filteredCountries = countries.filter(country => country.name.common.toLowerCase().includes(filter.toLowerCase()))
 
+  const changeFilter = (newFilter) => setFilter(newFilter)
+
   return (
-    <>
+    <div class="main-container">
       <h1>Finder: </h1>
       <Finder filter={filter} handleFilterChange={handleFilterChange} />
       <Message arrayLength={filteredCountries.length} />
-      <Result filteredCountries={filteredCountries} />
-    </>
+      <Result filteredCountries={filteredCountries} changeFilter={changeFilter} />
+    </div>
   )
 }
 

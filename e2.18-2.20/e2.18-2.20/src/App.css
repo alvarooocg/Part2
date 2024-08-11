@@ -2,5 +2,8 @@
     margin: 0;
     padding: 0;
     background-color: grey;
+}
+
+.main-container {
     margin-left: 50px;
 }

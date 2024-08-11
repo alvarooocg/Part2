@@ -1,0 +1,11 @@
+.country-container {
+    display: flex;
+}
+
+button {
+    background-color: white;
+}
+
+.languages-list {
+    margin-left: 50px;
+}

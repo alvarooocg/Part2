@@ -1,4 +1,6 @@
-const Result = ({ filteredCountries }) => {
+import './Result.css'
+
+const Result = ({ filteredCountries, changeFilter }) => {
     const arrayLength = filteredCountries.length
     
     if ( arrayLength == 1 ) {    
@@ -15,7 +17,7 @@ const Result = ({ filteredCountries }) => {
                             <p>area {item.area}</p>
                             <br />
                             <p><b>languages:</b>
-                            <ul>
+                            <ul class="languages-list">
                                 {Object.entries(item.languages).map(([key, value]) =>
                                     <li key={key}>{value}</li>
                                 )}
@@ -35,11 +37,13 @@ const Result = ({ filteredCountries }) => {
         return (
             <div> 
                 {filteredCountries.map(item => 
-                    <p>{item.name.common}</p>
+                    <div class="country-container">    
+                        <p>{item.name.common}</p><button type="submit" onClick={() => changeFilter(item.name.common)}>show</button>
+                    </div>
                 )}
             </div>
         )
-    } else {
+    } else if (arrayLength > 0) {
         console.log('theres more than 10 countries')
         return null
     }
