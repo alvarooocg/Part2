@@ -27,11 +27,14 @@ function App() {
 
   const handleFilterChange = (event) => setFilter(event.target.value)
 
-  // const filteredCountries = countries.filter(country => country.name.toLowerCase().includes(filter.toLowerCase()))
+  const filteredCountries = countries.filter(country => country.name.common.toLowerCase().includes(filter.toLowerCase()))
 
   return (
     <>
+      <h1>Finder: </h1>
       <Finder filter={filter} handleFilterChange={handleFilterChange} />
+      <Message arrayLength={filteredCountries.length} />
+      <Result filteredCountries={filteredCountries} />
     </>
   )
 }
