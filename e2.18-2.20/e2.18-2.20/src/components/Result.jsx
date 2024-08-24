@@ -1,51 +1,26 @@
 import './Result.css'
+import Info from './Info.jsx'
 
-const Result = ({ filteredCountries, changeFilter }) => {
-    const arrayLength = filteredCountries.length
+
+const Result = ({ countries, setCountries }) => {
+    const arrayLength = countries.length
     
-    if ( arrayLength == 1 ) {    
-        
-        return (
-            <div>
-                {filteredCountries.map((item) => {
-                    return (
-                        <div>
-                            <h1>Country</h1>
-                            <h2>{item.name.common}</h2>
-                            <br />
-                            <p>capital {item.capital}</p>
-                            <p>area {item.area}</p>
-                            <br />
-                            <p><b>languages:</b>
-                            <ul class="languages-list">
-                                {Object.entries(item.languages).map(([key, value]) =>
-                                    <li key={key}>{value}</li>
-                                )}
-                            </ul>
-                            </p>
-                            <br />
-                            <img src={item.flags.png} alt={item.flags.alt} />
-                        </div>
-                    )
-                    })
-                }
-                    
-            </div>
-        )
+    if ( arrayLength === 1 ) {    
+        return <Info country={countries[0]} />
     } else if ( arrayLength > 1 && arrayLength <= 10 ) {
         
         return (
-            <div> 
-                {filteredCountries.map(item => 
-                    <div class="country-container">    
-                        <p>{item.name.common}</p><button type="submit" onClick={() => changeFilter(item.name.common)}>show</button>
-                    </div>
+            <ul> 
+                {countries.map(country => 
+                    <li className="country-container" key={country.name.common}>    
+                        <p>{country.name.common}</p><button type="submit" onClick={() => setCountries([country])}>show</button>
+                    </li>
                 )}
-            </div>
+            </ul>
         )
-    } else if (arrayLength > 0) {
+    } else if (arrayLength > 10) {
         console.log('theres more than 10 countries')
-        return null
+        return
     }
         
 }

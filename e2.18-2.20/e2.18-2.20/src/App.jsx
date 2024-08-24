@@ -5,38 +5,40 @@ import './App.css'
 import Finder from './components/Finder'
 import Message from './components/Message'
 import Result from './components/Result'
-import Services from './services/countries'
+import ServicesCountries from './services/countries'
 
 function App() {
 
   const [countries, setCountries] = useState([])
   const [filter, setFilter] = useState('')
 
-  useEffect(() =>{
-    Services
-      .getAll()
-      .then(initialCountries => {
-        setCountries(initialCountries)
-      })
-      .catch(error => {
-        console.log('ERROR')
-      })
-  })
+  // console.log('API KEY => ' + api_key)
 
-  // console.log('length of the countries => ' + countries.length)
+  useEffect(() => {
+    if (filter) {
+      ServicesCountries
+        .getAll()
+        .then((countries) => {
+          const filteredCountries = countries.filter((country) => 
+            country.name.common.toLowerCase().includes(filter.toLowerCase())
+          )
+          setCountries(filteredCountries)
+        })
+    } else {
+      setCountries([])
+    }
+  }, [filter])
 
-  const handleFilterChange = (event) => setFilter(event.target.value)
-
-  const filteredCountries = countries.filter(country => country.name.common.toLowerCase().includes(filter.toLowerCase()))
-
-  const changeFilter = (newFilter) => setFilter(newFilter)
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value)
+  }
 
   return (
-    <div class="main-container">
+    <div className="main-container">
       <h1>Finder: </h1>
       <Finder filter={filter} handleFilterChange={handleFilterChange} />
-      <Message arrayLength={filteredCountries.length} />
-      <Result filteredCountries={filteredCountries} changeFilter={changeFilter} />
+      <Message arrayLength={countries.length} />
+      <Result countries={countries} setCountries={setCountries} />
     </div>
   )
 }
